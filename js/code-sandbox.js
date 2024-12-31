@@ -48,7 +48,7 @@ customElements.define(
 			${intro ? intro.innerHTML : ""}
 			<div class="sandbox">
 				<div class="sandbox-header">
-					<strong class="sandbox-label">Code Sandbox</strong>
+					<strong class="sandbox-label">${this.title ? this.title : "Code Sandbox"}</strong>
 					<span class="sandbox-controls">
 						<button class="sandbox-btn" data-click="reset">Reload</button>
 						${
