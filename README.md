@@ -2,7 +2,7 @@
 
 A fork of [code-sandbox](https://gist.github.com/cferdinandi/df9c95ae5f5ebcddf2ab85bb2805ff07) web component from Chris Ferdinandi for displaying an interactive code sandbox for html, css and javascript, similar to what CodePen does. 
 
-This fork adds the possibility to fetch a file from a URL and run it in the sandbox, by just adding an attribute `src="css/component.css"` to the web component. This can allow to keep the code snippets in a separate file and include them only on page load. This fork also adds the ability to pass the `name` attribute to the web component, which makes only one editor open at the time, leveraging the native `<details>` element behavior.
+This fork adds the possibility to fetch a file from a URL and run it in the sandbox, by just adding an attribute `src="css/component.css"` to the web component. This can allow to keep the code snippets in a separate file and include them only on page load. This fork also adds the ability to pass a `title` to the web component and the `name` attribute which gets attached to all the `<details>` elements, makeing only one editor open at the time, leveraging the native element behavior.
 
 ## Attributes
 
