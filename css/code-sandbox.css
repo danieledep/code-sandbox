@@ -1,0 +1,290 @@
+/**
+ * @section General Code Styles
+ */
+
+code-sandbox {
+	display: block;
+	width: 100%;
+	/**
+  * @section Code Sandbox
+  */
+
+	/**
+  * Wrapper element
+  */
+	.sandbox {
+		display: block;
+		width: 100%;
+		border-width: 1px;
+		border-style: solid;
+		border-color: light-dark(#ddd, #6b6b6b);
+		color: light-dark(#272727, #f7f7f7);
+		font-family: system-ui, sans-serif;
+		margin-bottom: 1.5em;
+		overflow: hidden;
+	}
+
+	.sandbox .sandbox-btn {
+		font-size: 0.8125em;
+		appearance: auto;
+		padding-block: 1px;
+		padding-inline: 6px;
+		border-width: 2px;
+		border-radius: 0.25em;
+		border-width: 1px;
+		border-style: solid;
+		border-color: light-dark(#ddd, #6b6b6b);
+	}
+
+	.sandbox summary,
+	.sandbox .sandbox-label {
+		font-weight: bold;
+		font-size: 0.8125em;
+	}
+
+	.sandbox summary {
+		cursor: pointer;
+	}
+
+	/**
+  * Main content area
+  */
+
+	@media (min-width: 768px) {
+		.sandbox-content {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		.sandbox-code {
+			grid-area: 1 / 1 / 2 / 2;
+		}
+
+		.sandbox-result,
+		.sandbox-console-result {
+			grid-area: 1 / 2 / 2 / 3;
+		}
+	}
+
+	.sandbox-editor {
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr;
+		column-gap: 0;
+		row-gap: 0;
+	}
+
+	.sandbox-text,
+	.sandbox-mirror {
+		grid-area: 1 / 1 / 2 / 2;
+		margin-bottom: 0;
+		min-height: 15em;
+	}
+
+	.sandbox-text,
+	.sandbox-mirror,
+	.sandbox-console-log {
+		border: none;
+		caret-color: #f7f7f7;
+		font: inherit;
+		font-family: Menlo, Monaco, "Courier New", monospace;
+		font-size: 0.875em;
+		height: unset;
+		line-height: 1.5;
+		overflow: hidden;
+		margin: 0;
+		padding: 0.8125em;
+		resize: none;
+		tab-size: 2;
+		white-space: pre-wrap;
+		word-break: break-all;
+		word-wrap: break-word;
+	}
+
+	.sandbox-mirror code {
+		display: inline-block;
+		padding: 0;
+		font-size: 1em;
+		letter-spacing: -0.0125em;
+		width: 100%;
+		tab-size: 2;
+		white-space: pre-wrap;
+		word-break: break-all;
+		word-wrap: break-word;
+	}
+
+	.sandbox-console-log {
+		background: hsl(220, 13%, 18%);
+		color: hsl(220, 14%, 71%);
+		text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+		min-height: calc((1em * 1.5) + 1.625em);
+		white-space: pre-wrap;
+		tab-size: 2;
+	}
+
+	.sandbox-text {
+		color: transparent;
+		background-color: transparent;
+	}
+
+	.sandbox-iframe {
+		aspect-ratio: auto;
+		background-color: #ffffff;
+		height: 100%;
+		width: 100%;
+		min-height: 15em;
+		margin-bottom: 0;
+	}
+
+	.sandbox,
+	.sandbox-mirror,
+	.sandbox-text,
+	.sandbox-console-log {
+		border-radius: 0.25em;
+	}
+
+	/**
+  * Header & Console
+  */
+
+	.sandbox-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: light-dark(#ddd, #6b6b6b);
+		border-top-left-radius: 0.25em;
+		border-top-right-radius: 0.25em;
+	}
+
+	.log-warn {
+		color: #f9d767;
+	}
+
+	.log-error {
+		color: #f9c8c8;
+	}
+
+	.sandbox-console-result {
+		.sandbox-label {
+			padding: 1em;
+			display: none;
+		}
+
+		.sandbox-console-log {
+			min-height: 15em;
+			height: 100%;
+			overflow: auto;
+		}
+	}
+
+	.sandbox-editor {
+		padding: 0 0.5em 0.5em 0.5em;
+	}
+
+	.sandbox-header {
+		padding: 0.5em 1em;
+	}
+
+	& details:not(.sandbox-console) {
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: light-dark(#ddd, #6b6b6b);
+
+		& summary {
+			padding: 1em;
+		}
+	}
+
+	@media (max-width: 767px) {
+		& details:not(.sandbox-console):has(pre.language-js) {
+			border-bottom: 0px;
+		}
+	}
+
+	@media (min-width: 768px) {
+		& details[open]:not(.sandbox-console):has(pre.language-js) {
+			border-bottom: 0px;
+		}
+	}
+
+	& details.sandbox-console {
+		border-top-width: 1px;
+		border-top-style: solid;
+		border-top-color: light-dark(#ddd, #6b6b6b);
+		padding: 0 0.5em 0.5em 0.5em;
+
+		& summary {
+			padding: 1em 0.5em 0.5em 0.5em;
+		}
+
+		&[open] summary {
+			padding-bottom: 1em;
+		}
+	}
+
+	.sandbox-console-result .sandbox-console-log {
+		border-radius: 0;
+	}
+
+	.sandbox-result,
+	.sandbox-console-result .sandbox-console-log {
+		border-top-width: 1px;
+		border-top-style: solid;
+		border-top-color: light-dark(#ddd, #6b6b6b);
+	}
+
+	@media (min-width: 768px) {
+		.sandbox-result,
+		.sandbox-console-result .sandbox-console-log {
+			border-top: 0;
+			border-left-width: 1px;
+			border-left-style: solid;
+			border-left-color: light-dark(#ddd, #6b6b6b);
+		}
+	}
+
+	/*
+  * Dark mode fallback for browsers that do not support light-dark()
+  */
+	@supports not (light-dark(#272727, #f7f7f7)) {
+		.sandbox,
+		.sandbox .sandbox-btn,
+		.sandbox-header,
+		& details,
+		.sandbox-console-result .sandbox-console-log {
+			border-color: #ddd;
+		}
+
+		@media (prefers-color-scheme: dark) {
+			.sandbox,
+			.sandbox .sandbox-btn,
+			.sandbox-header,
+			& details,
+			.sandbox-console-result .sandbox-console-log {
+				border-color: #6b6b6b;
+			}
+		}
+	}
+
+	/*
+  * Hide only visually, but have it available for screen readers:
+  * @link https://snook.ca/archives/html_and_css/hiding-content-for-accessibility
+  *
+  * 1. For long content, line feeds are not interpreted as spaces and small width
+  *    causes content to wrap 1 word per line:
+  *    https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
+  */
+	.sandbox .screen-reader {
+		border: 0;
+		clip: rect(0 0 0 0);
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		padding: 0;
+		position: absolute;
+		white-space: nowrap; /* 1 */
+		width: 1px;
+	}
+}
