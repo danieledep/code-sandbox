@@ -18,5 +18,5 @@ This fork adds the possibility to fetch a file from a URL and run it in the sand
 
 ### Resources
 
-- [PrismJS](https://prismjs.com/)
 - [cferdinandi/code-sandbox](https://gist.github.com/cferdinandi/df9c95ae5f5ebcddf2ab85bb2805ff07)
+- [PrismJS](https://prismjs.com/)
