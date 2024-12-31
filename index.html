@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>code-sandbox web component</title>
+  <!-- Code sandbox CSS -->
+  <link href="css/code-sandbox.css" rel="stylesheet">
+  <!-- Code sandbox JS -->
+  <script type="module" src="js/code-sandbox.js"></script>
+</head>
+
+<body>
+  <code-sandbox console hidden name="code-sandbox-1">
+    <textarea for="html"><!-- ... --></textarea>
+    <textarea for="css" src="css/code-sandbox.css">/* ... */</textarea>
+    <textarea for="js" open>// ...</textarea>
+  </code-sandbox>
+
+  <code-sandbox console hidden result="console">
+    <textarea for="js">// ...</textarea>
+  </code-sandbox>
+</body>
+  
+</html>
