@@ -41,7 +41,7 @@ customElements.define(
 				this.debounce = null;
 
 				// Create sandbox
-				let logger = `<div class="sandbox-console-log" id="sandbox-console-log-${this.uuid}"></div>`;
+				let logger = `<pre class="sandbox-console-log language-shell" id="sandbox-console-log-${this.uuid}"></pre>`;
 				this.innerHTML = `${
 					collapse && intro ? '<details class="margin-bottom">' : ""
 				}
