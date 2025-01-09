@@ -5,6 +5,7 @@
 code-sandbox {
 	display: block;
 	width: 100%;
+
 	/**
   * @section Code Sandbox
   */
@@ -13,7 +14,8 @@ code-sandbox {
   * Wrapper element
   */
 	.sandbox {
-		display: block;
+		display: grid;
+		grid-template-rows: auto 1fr auto;
 		width: 100%;
 		border-width: 1px;
 		border-style: solid;
@@ -22,6 +24,8 @@ code-sandbox {
 		font-family: system-ui, sans-serif;
 		margin-bottom: 1.5em;
 		overflow: hidden;
+		container-type: inline-size;
+		resize: vertical;
 	}
 
 	.sandbox .sandbox-btn {
@@ -44,20 +48,40 @@ code-sandbox {
 
 	.sandbox summary {
 		cursor: pointer;
+		position: sticky;
+		top: 0;
+		background-color: Canvas;
+	}
+
+	.sandbox-content {
+		display: grid;
+		grid-template-rows: auto 1fr;
+		overflow: hidden;
+	}
+
+	.sandbox-code {
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+	}
+
+	.sandbox details {
+		max-height: 100%;
+		overflow: auto;
+	}
+
+	.sandbox details:not([open]) {
+		flex-shrink: 0;
 	}
 
 	/**
   * Main content area
   */
 
-	@media (min-width: 768px) {
+	@container (min-width: 768px) {
 		.sandbox-content {
-			display: grid;
 			grid-template-columns: repeat(2, 1fr);
-		}
-
-		.sandbox-code {
-			grid-area: 1 / 1 / 2 / 2;
+			grid-template-rows: 1fr;
 		}
 
 		.sandbox-result,
@@ -197,13 +221,7 @@ code-sandbox {
 		}
 	}
 
-	@media (max-width: 767px) {
-		& details:not(.sandbox-console):has(pre.language-js) {
-			border-bottom: 0px;
-		}
-	}
-
-	@media (min-width: 768px) {
+	@container (min-width: 768px) {
 		& details[open]:not(.sandbox-console):has(pre.language-js) {
 			border-bottom: 0px;
 		}
@@ -235,7 +253,7 @@ code-sandbox {
 		border-top-color: light-dark(#ddd, #6b6b6b);
 	}
 
-	@media (min-width: 768px) {
+	@container (min-width: 768px) {
 		.sandbox-result,
 		.sandbox-console-result .sandbox-console-log {
 			border-top: 0;
