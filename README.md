@@ -17,11 +17,6 @@ Also being a web component, it means it can be used in any framework or vanilla 
 | `src`     | The URL of the file to fetch and run in the sandbox. Can be on the same origin or a remote file (Optional)      |
 | `title`   | The title of the code block, defaults to `Code sandbox`. (Optional)                                             |
 
-## To do
-
-- [ ] Make it work with the `<pre>` rendering from markdown-it
-- [ ] Make the webcomponent layout use container queries instead of media queries, maybe add an option
-
 ### Resources
 
 - [cferdinandi/code-sandbox](https://gist.github.com/cferdinandi/df9c95ae5f5ebcddf2ab85bb2805ff07)
