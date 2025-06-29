@@ -57,6 +57,7 @@ code-sandbox {
 		display: grid;
 		grid-template-rows: auto 1fr;
 		overflow: hidden;
+		height: fit-content;
 	}
 
 	.sandbox-code {
