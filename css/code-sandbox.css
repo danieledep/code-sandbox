@@ -17,6 +17,19 @@ code-sandbox {
 		container-type: inline-size;
 		resize: vertical;
 
+		/* Fullscreen */
+		&:fullscreen {
+			height: 100%;
+			margin: 0;
+			border-radius: 0;
+			resize: none;
+			background: Canvas;
+
+			.csb-content {
+				height: auto;
+			}
+		}
+
 		/* Header */
 		.csb-header {
 			display: flex;

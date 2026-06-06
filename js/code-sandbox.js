@@ -63,6 +63,7 @@ customElements.define(
 					<span class="csb-controls">
 						<button class="csb-btn" data-click="reset">Reload</button>
 						<button class="csb-btn" data-click="copy">Copy</button>
+						<button class="csb-btn" data-click="fullscreen">Fullscreen</button>
 						${this.console || this.result === "console"
 						? `<button class="csb-btn" data-click="clear">Clear Console</button>`
 						: ""
@@ -96,6 +97,7 @@ customElements.define(
 			</div>`;
 
 				// Get elements
+				this.wrapperElem = this.querySelector(".csb");
 				this.htmlElem = this.querySelector(`#csb-html-${this.uuid}`);
 				this.cssElem = this.querySelector(`#csb-css-${this.uuid}`);
 				this.jsElem = this.querySelector(`#csb-js-${this.uuid}`);
@@ -111,6 +113,10 @@ customElements.define(
 				this.addEventListener("input", this);
 				this.addEventListener("keydown", this);
 				this.addEventListener("click", this);
+
+				// Keep the fullscreen button label in sync, including Esc to exit
+				this._onFullscreenChange = () => this.updateFullscreenButton();
+				document.addEventListener("fullscreenchange", this._onFullscreenChange);
 			} finally {
 				// Always reveal the element, even if setup failed partway
 				this.removeAttribute("hidden");
@@ -122,6 +128,12 @@ customElements.define(
 		 */
 		disconnectedCallback() {
 			clearTimeout(this.debounce);
+			if (this._onFullscreenChange) {
+				document.removeEventListener(
+					"fullscreenchange",
+					this._onFullscreenChange
+				);
+			}
 		}
 
 		/**
@@ -213,6 +225,12 @@ customElements.define(
 			// Copy the inlined source — leaves the console untouched
 			if (task === "copy") {
 				this.copyCode(event.target);
+				return;
+			}
+
+			// Toggle fullscreen — also leaves the console untouched
+			if (task === "fullscreen") {
+				this.toggleFullscreen();
 				return;
 			}
 
@@ -562,6 +580,33 @@ ${html}
 				delete button._csbLabel;
 				delete button._csbTimer;
 			}, 1500);
+		}
+
+		/**
+		 * Toggle fullscreen on the whole sandbox, so the controls stay reachable
+		 */
+		async toggleFullscreen() {
+			try {
+				if (document.fullscreenElement === this.wrapperElem) {
+					await document.exitFullscreen();
+				} else if (this.wrapperElem.requestFullscreen) {
+					await this.wrapperElem.requestFullscreen();
+				}
+			} catch (error) {
+				// Fullscreen can be blocked by the browser or a permissions policy
+			}
+		}
+
+		/**
+		 * Reflect the current fullscreen state in the button label
+		 */
+		updateFullscreenButton() {
+			let button = this.querySelector('[data-click="fullscreen"]');
+			if (!button) return;
+			button.textContent =
+				document.fullscreenElement === this.wrapperElem
+					? "Exit fullscreen"
+					: "Fullscreen";
 		}
 	}
 );
