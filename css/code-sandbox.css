@@ -19,8 +19,8 @@ code-sandbox {
 		width: 100%;
 		border-width: 1px;
 		border-style: solid;
-		border-color: var(--cs-border-color, light-dark(#ddd, #6b6b6b));
-		color: var(--cs-color, light-dark(#272727, #f7f7f7));
+		border-color: var(--csb-border-color, light-dark(#ddd, #6b6b6b));
+		color: var(--csb-color, light-dark(#272727, #f7f7f7));
 		font-family: system-ui, sans-serif;
 		margin-bottom: 1.5em;
 		overflow: hidden;
@@ -37,7 +37,7 @@ code-sandbox {
 		border-radius: 0.25em;
 		border-width: 1px;
 		border-style: solid;
-		border-color: var(--cs-border-color, light-dark(#ddd, #6b6b6b));
+		border-color: var(--csb-border-color, light-dark(#ddd, #6b6b6b));
 	}
 
 	.sandbox summary,
@@ -178,17 +178,17 @@ code-sandbox {
 		justify-content: space-between;
 		border-bottom-width: 1px;
 		border-bottom-style: solid;
-		border-bottom-color: var(--cs-border-color, light-dark(#ddd, #6b6b6b));
+		border-bottom-color: var(--csb-border-color, light-dark(#ddd, #6b6b6b));
 		border-top-left-radius: 0.25em;
 		border-top-right-radius: 0.25em;
 	}
 
 	.log-warn {
-		color: var(--cs-warning-color, #f9d767);
+		color: var(--csb-warning-color, #f9d767);
 	}
 
 	.log-error {
-		color: var(--cs-error-color, #f9c8c8);
+		color: var(--csb-error-color, #f9c8c8);
 	}
 
 	.sandbox-console-result {
@@ -215,7 +215,7 @@ code-sandbox {
 	& details:not(.sandbox-console) {
 		border-bottom-width: 1px;
 		border-bottom-style: solid;
-		border-bottom-color: var(--cs-border-color, light-dark(#ddd, #6b6b6b));
+		border-bottom-color: var(--csb-border-color, light-dark(#ddd, #6b6b6b));
 
 		& summary {
 			padding: 1em;
@@ -231,7 +231,7 @@ code-sandbox {
 	& details.sandbox-console {
 		border-top-width: 1px;
 		border-top-style: solid;
-		border-top-color: var(--cs-border-color, light-dark(#ddd, #6b6b6b));
+		border-top-color: var(--csb-border-color, light-dark(#ddd, #6b6b6b));
 		padding: 0 0.5em 0.5em 0.5em;
 
 		& summary {
@@ -251,7 +251,7 @@ code-sandbox {
 	.sandbox-console-result .sandbox-console-log {
 		border-top-width: 1px;
 		border-top-style: solid;
-		border-top-color: var(--cs-border-color, light-dark(#ddd, #6b6b6b));
+		border-top-color: var(--csb-border-color, light-dark(#ddd, #6b6b6b));
 	}
 
 	@container (min-width: 768px) {
@@ -260,7 +260,7 @@ code-sandbox {
 			border-top: 0;
 			border-left-width: 1px;
 			border-left-style: solid;
-			border-left-color: var(--cs-border-color, light-dark(#ddd, #6b6b6b));
+			border-left-color: var(--csb-border-color, light-dark(#ddd, #6b6b6b));
 		}
 	}
 
