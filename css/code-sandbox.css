@@ -36,6 +36,7 @@ code-sandbox {
 			padding-inline: 6px;
 			border: 1px solid var(--csb-border-color, light-dark(#ddd, #6b6b6b));
 			border-radius: var(--csb-radius, 0.25em);
+			cursor: pointer;
 		}
 
 		& summary,
