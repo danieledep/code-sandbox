@@ -9,7 +9,7 @@ code-sandbox {
 		grid-template-rows: auto 1fr auto;
 		width: 100%;
 		border: 1px solid var(--csb-border-color, light-dark(#ddd, #6b6b6b));
-		border-radius: 0.25em;
+		border-radius: var(--csb-radius, 0.25em);
 		color: var(--csb-color, light-dark(#272727, #f7f7f7));
 		font-family: system-ui, sans-serif;
 		margin-block-end: 1.5em;
@@ -25,8 +25,8 @@ code-sandbox {
 			padding: 0.5em 1em;
 			border-block-end: 1px solid
 				var(--csb-border-color, light-dark(#ddd, #6b6b6b));
-			border-start-start-radius: 0.25em;
-			border-start-end-radius: 0.25em;
+			border-start-start-radius: var(--csb-radius, 0.25em);
+			border-start-end-radius: var(--csb-radius, 0.25em);
 		}
 
 		.csb-btn {
@@ -35,7 +35,7 @@ code-sandbox {
 			padding-block: 1px;
 			padding-inline: 6px;
 			border: 1px solid var(--csb-border-color, light-dark(#ddd, #6b6b6b));
-			border-radius: 0.25em;
+			border-radius: var(--csb-radius, 0.25em);
 		}
 
 		& summary,
@@ -120,25 +120,32 @@ code-sandbox {
 		.csb-text,
 		.csb-mirror {
 			grid-area: 1 / 1 / 2 / 2;
-			min-height: 15em;
+			min-height: var(--csb-min-height, 15em);
 		}
 
 		.csb-text,
 		.csb-mirror,
 		.csb-console-log {
 			border: none;
-			border-radius: 0.25em;
-			caret-color: #f7f7f7;
+			border-radius: var(--csb-radius, 0.25em);
+			caret-color: var(--csb-caret-color, #f7f7f7);
 			font: inherit;
-			font-family: var(--csb-font-family, "Courier New", monospace);
-			font-size: 0.875em;
+			font-family: var(
+				--csb-font-family,
+				ui-monospace,
+				Menlo,
+				Monaco,
+				"Courier New",
+				monospace
+			);
+			font-size: var(--csb-font-size, 0.875em);
 			height: unset;
 			line-height: 1.5;
 			overflow: hidden;
 			margin: 0;
 			padding: 0.8125em;
 			resize: none;
-			tab-size: 2;
+			tab-size: var(--csb-tab-size, 2);
 			white-space: pre-wrap;
 			word-break: break-all;
 			overflow-wrap: break-word;
@@ -150,7 +157,7 @@ code-sandbox {
 			font-size: 1em;
 			letter-spacing: -0.0125em;
 			width: 100%;
-			tab-size: 2;
+			tab-size: var(--csb-tab-size, 2);
 			white-space: pre-wrap;
 			word-break: break-all;
 			overflow-wrap: break-word;
@@ -162,12 +169,12 @@ code-sandbox {
 		}
 
 		.csb-console-log {
-			background: hsl(220 13% 18%);
-			color: hsl(220 14% 71%);
+			background: var(--csb-console-bg, hsl(220 13% 18%));
+			color: var(--csb-console-color, hsl(220 14% 71%));
 			text-shadow: 0 1px rgb(0 0 0 / 0.3);
 			min-height: calc((1em * 1.5) + 1.625em);
 			white-space: pre-wrap;
-			tab-size: 2;
+			tab-size: var(--csb-tab-size, 2);
 		}
 
 		.csb-log-warn {
@@ -180,10 +187,10 @@ code-sandbox {
 
 		/* Result panel */
 		.csb-iframe {
-			background-color: #ffffff;
+			background-color: var(--csb-preview-bg, #ffffff);
 			height: 100%;
 			width: 100%;
-			min-height: 15em;
+			min-height: var(--csb-min-height, 15em);
 			margin-block-end: 0;
 		}
 
@@ -211,7 +218,7 @@ code-sandbox {
 			}
 
 			.csb-console-log {
-				min-height: 15em;
+				min-height: var(--csb-min-height, 15em);
 				height: 100%;
 				overflow: auto;
 				border-radius: 0;

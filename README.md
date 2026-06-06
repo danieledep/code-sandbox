@@ -17,6 +17,34 @@ Also being a web component, it means it can be used in any framework or vanilla 
 | `src`     | The URL of the file to fetch and run in the sandbox. Can be on the same origin or a remote file (Optional)      |
 | `title`   | The title of the code block, defaults to `Code sandbox`. (Optional)                                             |
 
+## Theming
+
+The component exposes a set of CSS custom properties so you can match it to your own design without overriding selectors. Set them on `code-sandbox` (or any ancestor, e.g. `:root`):
+
+```css
+code-sandbox {
+	--csb-radius: 0;
+	--csb-min-height: 24em;
+	--csb-preview-bg: #faf8f5;
+}
+```
+
+| Property              | Description                                  | Default                              |
+| --------------------- | -------------------------------------------- | ------------------------------------ |
+| `--csb-color`         | Text colour of the chrome (labels, summaries) | `light-dark(#272727, #f7f7f7)`       |
+| `--csb-border-color`  | Borders and dividers                          | `light-dark(#ddd, #6b6b6b)`          |
+| `--csb-radius`        | Corner radius of the frame, buttons and panels | `0.25em`                            |
+| `--csb-min-height`    | Minimum height of the editors, preview and console panels | `15em`                  |
+| `--csb-preview-bg`    | Background of the iframe preview              | `#ffffff`                            |
+| `--csb-font-family`   | Font for the code editors and console         | `ui-monospace, Menlo, Monaco, "Courier New", monospace` |
+| `--csb-font-size`     | Font size for the code editors and console    | `0.875em`                            |
+| `--csb-tab-size`      | Tab width in the editors and console          | `2`                                  |
+| `--csb-caret-color`   | Caret colour in the editors                   | `#f7f7f7`                            |
+| `--csb-console-bg`    | Console panel background                      | `hsl(220 13% 18%)`                   |
+| `--csb-console-color` | Console base text colour                      | `hsl(220 14% 71%)`                   |
+| `--csb-warning-color` | Colour of `console.warn` output               | `#f9d767`                            |
+| `--csb-error-color`   | Colour of `console.error` output              | `#f9c8c8`                            |
+
 ### Resources
 
 - [cferdinandi/code-sandbox](https://gist.github.com/cferdinandi/df9c95ae5f5ebcddf2ab85bb2805ff07)
