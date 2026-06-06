@@ -62,6 +62,7 @@ customElements.define(
 				)}</strong>
 					<span class="csb-controls">
 						<button class="csb-btn" data-click="reset">Reload</button>
+						<button class="csb-btn" data-click="copy">Copy</button>
 						${this.console || this.result === "console"
 						? `<button class="csb-btn" data-click="clear">Clear Console</button>`
 						: ""
@@ -209,12 +210,17 @@ customElements.define(
 			let task = event.target.getAttribute("data-click");
 			if (!task) return;
 
-			// If there's a console, clear it
+			// Copy the inlined source — leaves the console untouched
+			if (task === "copy") {
+				this.copyCode(event.target);
+				return;
+			}
+
+			// Reset and clear both wipe the console; reset also re-runs the sandbox
 			if (this.loggerElem) {
 				this.loggerElem.innerHTML = "";
 			}
 
-			// If reset, wipe all elements
 			if (task === "reset") {
 				this.render();
 			}
@@ -468,6 +474,94 @@ customElements.define(
 					instance.loggerElem.append(log);
 				}
 			});
+		}
+
+		/**
+		 * Build a standalone, self-contained HTML document from the current
+		 * editor contents: CSS in a <style> and JS in a <script type="module">
+		 * inside <head>, the HTML in <body>. Content is inlined verbatim.
+		 * @return {String} The complete HTML document
+		 */
+		buildStandaloneDocument() {
+			let html = this.htmlElem ? this.htmlElem.value : "";
+			let css = this.cssElem ? this.cssElem.value : "";
+			let js = this.jsElem ? this.jsElem.value : "";
+
+			let head = [
+				`\t\t<meta charset="UTF-8" />`,
+				`\t\t<meta name="viewport" content="width=device-width, initial-scale=1.0" />`,
+				`\t\t<title>${this.escapeHtml(this.title || "Code Sandbox")}</title>`,
+			];
+			if (css) head.push(`\t\t<style>\n${css}\n\t\t</style>`);
+			if (js) head.push(`\t\t<script type="module">\n${js}\n\t\t<\/script>`);
+
+			return `<!doctype html>
+<html lang="en">
+	<head>
+${head.join("\n")}
+	</head>
+	<body>
+${html}
+	</body>
+</html>
+`;
+		}
+
+		/**
+		 * Copy the inlined document to the clipboard, then flash the button
+		 * @param  {Element} button The button that was clicked
+		 */
+		async copyCode(button) {
+			let ok = await this.copyToClipboard(this.buildStandaloneDocument());
+			this.flashButton(button, ok ? "Copied!" : "Copy failed");
+		}
+
+		/**
+		 * Write text to the clipboard, falling back to execCommand outside a
+		 * secure context (where navigator.clipboard is unavailable).
+		 * @param  {String}           text The text to copy
+		 * @return {Promise<Boolean>}      Whether the copy succeeded
+		 */
+		async copyToClipboard(text) {
+			if (navigator.clipboard?.writeText) {
+				try {
+					await navigator.clipboard.writeText(text);
+					return true;
+				} catch (error) {
+					// Fall through to the legacy approach below
+				}
+			}
+
+			try {
+				let textarea = document.createElement("textarea");
+				textarea.value = text;
+				textarea.setAttribute("readonly", "");
+				textarea.style.position = "fixed";
+				textarea.style.opacity = "0";
+				document.body.append(textarea);
+				textarea.select();
+				let ok = document.execCommand("copy");
+				textarea.remove();
+				return ok;
+			} catch (error) {
+				return false;
+			}
+		}
+
+		/**
+		 * Briefly replace a button's label with a status message
+		 * @param  {Element} button  The button to update
+		 * @param  {String}  message The temporary label
+		 */
+		flashButton(button, message) {
+			clearTimeout(button._csbTimer);
+			button._csbLabel ??= button.textContent;
+			button.textContent = message;
+			button._csbTimer = setTimeout(() => {
+				button.textContent = button._csbLabel;
+				delete button._csbLabel;
+				delete button._csbTimer;
+			}, 1500);
 		}
 	}
 );
