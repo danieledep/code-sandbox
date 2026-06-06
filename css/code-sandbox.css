@@ -24,10 +24,6 @@ code-sandbox {
 			border-radius: 0;
 			resize: none;
 			background: Canvas;
-
-			.csb-content {
-				height: auto;
-			}
 		}
 
 		/* Header */
@@ -70,7 +66,8 @@ code-sandbox {
 			display: grid;
 			grid-template-rows: auto 1fr;
 			overflow: hidden;
-			height: fit-content;
+			/* Fill the frame's row so the panes grow/shrink when it's resized */
+			height: auto;
 
 			@container (min-width: 768px) {
 				grid-template-columns: repeat(2, 1fr);
