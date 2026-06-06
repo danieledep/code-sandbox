@@ -35,6 +35,7 @@ code-sandbox {
 | `--csb-border-color`  | Borders and dividers                          | `light-dark(#ddd, #6b6b6b)`          |
 | `--csb-radius`        | Corner radius of the frame, buttons and panels | `0.25em`                            |
 | `--csb-min-height`    | Minimum height of the editors, preview and console panels | `15em`                  |
+| `--csb-resize`        | How the frame can be drag-resized (`vertical`, `horizontal`, `both`, `none`) | `both`        |
 | `--csb-preview-bg`    | Background of the iframe preview              | `#ffffff`                            |
 | `--csb-font-family`   | Font for the code editors and console         | `ui-monospace, Menlo, Monaco, "Courier New", monospace` |
 | `--csb-font-size`     | Font size for the code editors and console    | `0.875em`                            |

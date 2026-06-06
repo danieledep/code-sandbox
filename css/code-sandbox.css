@@ -15,7 +15,7 @@ code-sandbox {
 		margin-block-end: 1.5em;
 		overflow: hidden;
 		container-type: inline-size;
-		resize: vertical;
+		resize: var(--csb-resize, both);
 
 		/* Fullscreen */
 		&:fullscreen {
