@@ -177,6 +177,7 @@ code-sandbox {
 		.csb-text {
 			color: transparent;
 			background-color: transparent;
+			outline: none;
 		}
 
 		.csb-console-log {
