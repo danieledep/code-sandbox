@@ -1,0 +1,36 @@
+{
+	"name": "@danieledep/code-sandbox",
+	"version": "1.0.0",
+	"description": "A dependency-free <code-sandbox> web component for interactive, editable HTML/CSS/JS demos.",
+	"type": "module",
+	"main": "src/code-sandbox.js",
+	"exports": {
+		".": "./src/code-sandbox.js",
+		"./code-sandbox.css": "./src/code-sandbox.css"
+	},
+	"unpkg": "src/code-sandbox.js",
+	"jsdelivr": "src/code-sandbox.js",
+	"sideEffects": true,
+	"publishConfig": {
+		"access": "public"
+	},
+	"keywords": [
+		"web-component",
+		"custom-element",
+		"code",
+		"sandbox",
+		"playground",
+		"editor",
+		"html",
+		"css",
+		"javascript"
+	],
+	"author": "danieledep",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/danieledep/code-sandbox.git"
+	},
+	"homepage": "https://github.com/danieledep/code-sandbox#readme",
+	"bugs": "https://github.com/danieledep/code-sandbox/issues"
+}

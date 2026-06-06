@@ -6,6 +6,54 @@ Having a code sandbox web component can be useful for showing code snippets in a
 
 Also being a web component, it means it can be used in any framework or vanilla JavaScript and it will always work, since it doesn't depend on any framework. It has no hard dependencies: syntax highlighting is optional and pluggable — drop in [PrismJS](https://prismjs.com/) and it's used automatically, or wire up another highlighter such as [Shiki](https://shiki.style/) (see [Syntax highlighting](#syntax-highlighting)). Without one, the editors simply show plain text. This fork adds a few useful features to the original code too.
 
+## Installation
+
+The component is a single self-registering custom element with no build step and no required dependencies (syntax highlighting is optional — see [Syntax highlighting](#syntax-highlighting)). Use it via npm or straight from a CDN.
+
+### npm
+
+```bash
+npm install @danieledep/code-sandbox
+```
+
+Import it once to register the `<code-sandbox>` element, and include the stylesheet:
+
+```js
+import "@danieledep/code-sandbox";
+import "@danieledep/code-sandbox/code-sandbox.css";
+```
+
+If your bundler doesn't handle CSS imports, link the stylesheet in your HTML instead (as in the CDN snippet below, pointed at your local copy).
+
+### CDN
+
+No install, no build — drop two tags into the page. Pin a version (`@1`) so it can't shift under you:
+
+```html
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/@danieledep/code-sandbox@1/src/code-sandbox.css"
+/>
+<script
+	type="module"
+	src="https://cdn.jsdelivr.net/npm/@danieledep/code-sandbox@1/src/code-sandbox.js"
+></script>
+```
+
+unpkg works the same way — swap the host for `https://unpkg.com/`.
+
+### Usage
+
+Either way, author a sandbox declaratively, with one `<textarea>` per language:
+
+```html
+<code-sandbox>
+	<textarea for="html"><!-- markup --></textarea>
+	<textarea for="css">/* styles */</textarea>
+	<textarea for="js">// script</textarea>
+</code-sandbox>
+```
+
 ## Attributes
 
 | Attribute | Description                                                                                                     |
