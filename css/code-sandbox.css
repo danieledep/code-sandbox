@@ -19,8 +19,8 @@ code-sandbox {
 		width: 100%;
 		border-width: 1px;
 		border-style: solid;
-		border-color: light-dark(#ddd, #6b6b6b);
-		color: light-dark(#272727, #f7f7f7);
+		border-color: var(--cs-border-color, light-dark(#ddd, #6b6b6b));
+		color: var(--cs-color, light-dark(#272727, #f7f7f7));
 		font-family: system-ui, sans-serif;
 		margin-bottom: 1.5em;
 		overflow: hidden;
@@ -37,7 +37,7 @@ code-sandbox {
 		border-radius: 0.25em;
 		border-width: 1px;
 		border-style: solid;
-		border-color: light-dark(#ddd, #6b6b6b);
+		border-color: var(--cs-border-color, light-dark(#ddd, #6b6b6b));
 	}
 
 	.sandbox summary,
@@ -178,17 +178,17 @@ code-sandbox {
 		justify-content: space-between;
 		border-bottom-width: 1px;
 		border-bottom-style: solid;
-		border-bottom-color: light-dark(#ddd, #6b6b6b);
+		border-bottom-color: var(--cs-border-color, light-dark(#ddd, #6b6b6b));
 		border-top-left-radius: 0.25em;
 		border-top-right-radius: 0.25em;
 	}
 
 	.log-warn {
-		color: #f9d767;
+		color: var(--cs-warning-color, #f9d767);
 	}
 
 	.log-error {
-		color: #f9c8c8;
+		color: var(--cs-error-color, #f9c8c8);
 	}
 
 	.sandbox-console-result {
@@ -215,7 +215,7 @@ code-sandbox {
 	& details:not(.sandbox-console) {
 		border-bottom-width: 1px;
 		border-bottom-style: solid;
-		border-bottom-color: light-dark(#ddd, #6b6b6b);
+		border-bottom-color: var(--cs-border-color, light-dark(#ddd, #6b6b6b));
 
 		& summary {
 			padding: 1em;
@@ -231,7 +231,7 @@ code-sandbox {
 	& details.sandbox-console {
 		border-top-width: 1px;
 		border-top-style: solid;
-		border-top-color: light-dark(#ddd, #6b6b6b);
+		border-top-color: var(--cs-border-color, light-dark(#ddd, #6b6b6b));
 		padding: 0 0.5em 0.5em 0.5em;
 
 		& summary {
@@ -251,7 +251,7 @@ code-sandbox {
 	.sandbox-console-result .sandbox-console-log {
 		border-top-width: 1px;
 		border-top-style: solid;
-		border-top-color: light-dark(#ddd, #6b6b6b);
+		border-top-color: var(--cs-border-color, light-dark(#ddd, #6b6b6b));
 	}
 
 	@container (min-width: 768px) {
@@ -260,30 +260,7 @@ code-sandbox {
 			border-top: 0;
 			border-left-width: 1px;
 			border-left-style: solid;
-			border-left-color: light-dark(#ddd, #6b6b6b);
-		}
-	}
-
-	/*
-  * Dark mode fallback for browsers that do not support light-dark()
-  */
-	@supports not (light-dark(#272727, #f7f7f7)) {
-		.sandbox,
-		.sandbox .sandbox-btn,
-		.sandbox-header,
-		& details,
-		.sandbox-console-result .sandbox-console-log {
-			border-color: #ddd;
-		}
-
-		@media (prefers-color-scheme: dark) {
-			.sandbox,
-			.sandbox .sandbox-btn,
-			.sandbox-header,
-			& details,
-			.sandbox-console-result .sandbox-console-log {
-				border-color: #6b6b6b;
-			}
+			border-left-color: var(--cs-border-color, light-dark(#ddd, #6b6b6b));
 		}
 	}
 
@@ -295,7 +272,7 @@ code-sandbox {
   *    causes content to wrap 1 word per line:
   *    https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
   */
-	.sandbox .screen-reader {
+	.sandbox .sr-only {
 		border: 0;
 		clip: rect(0 0 0 0);
 		height: 1px;
