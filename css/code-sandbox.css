@@ -54,11 +54,23 @@ code-sandbox {
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			padding: 0.5em 1em;
+			flex-wrap: wrap;
+			gap: 0.5em;
+			padding: 0.5em 0.75em;
 			border-block-end: 1px solid
 				var(--csb-border-color, light-dark(#ddd, #6b6b6b));
 			border-start-start-radius: var(--csb-radius, 0.25em);
 			border-start-end-radius: var(--csb-radius, 0.25em);
+
+			@container (min-width: 768px) {
+				padding: 0.5em 1em;
+			}
+		}
+
+		.csb-controls {
+			display: flex;
+			gap: 0.25em;
+			flex-wrap: wrap;
 		}
 
 		.csb-btn {
