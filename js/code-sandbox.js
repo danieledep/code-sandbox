@@ -224,7 +224,7 @@ customElements.define(
 					<summary>${type.toUpperCase()}</summary>
 					<label for="sandbox-${type}-${
 				this.uuid
-			}" class="screen-reader">${type.toUpperCase()}</label>
+			}" class="sr-only">${type.toUpperCase()}</label>
 					<div class="sandbox-editor">
 							<pre class="sandbox-mirror"><code id="sandbox-${type}-mirror-${
 				this.uuid
