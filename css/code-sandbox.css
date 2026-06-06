@@ -1,17 +1,10 @@
-/**
- * @section Code Sandbox
- */
-
 code-sandbox {
-	/* Opt in to dark mode so light-dark() and Canvas track the user's preference */
 	color-scheme: light dark;
 	display: block;
 	width: 100%;
 
-	/**
-	 * Wrapper element
-	 */
-	.sandbox {
+	/* Wrapper */
+	.csb {
 		display: grid;
 		grid-template-rows: auto 1fr auto;
 		width: 100%;
@@ -24,20 +17,19 @@ code-sandbox {
 		container-type: inline-size;
 		resize: vertical;
 
-		/**
-		 * Header
-		 */
-		.sandbox-header {
+		/* Header */
+		.csb-header {
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
 			padding: 0.5em 1em;
-			border-block-end: 1px solid var(--csb-border-color, light-dark(#ddd, #6b6b6b));
+			border-block-end: 1px solid
+				var(--csb-border-color, light-dark(#ddd, #6b6b6b));
 			border-start-start-radius: 0.25em;
 			border-start-end-radius: 0.25em;
 		}
 
-		.sandbox-btn {
+		.csb-btn {
 			font-size: 0.8125em;
 			appearance: auto;
 			padding-block: 1px;
@@ -47,7 +39,7 @@ code-sandbox {
 		}
 
 		& summary,
-		.sandbox-label {
+		.csb-label {
 			font-weight: bold;
 			font-size: 0.8125em;
 		}
@@ -59,10 +51,8 @@ code-sandbox {
 			background-color: Canvas;
 		}
 
-		/**
-		 * Main content area
-		 */
-		.sandbox-content {
+		/* Content */
+		.csb-content {
 			display: grid;
 			grid-template-rows: auto 1fr;
 			overflow: hidden;
@@ -74,15 +64,13 @@ code-sandbox {
 			}
 		}
 
-		.sandbox-code {
+		.csb-code {
 			display: flex;
 			flex-direction: column;
 			overflow: hidden;
 		}
 
-		/**
-		 * Editors
-		 */
+		/* Editors */
 		& details {
 			max-height: 100%;
 			overflow: auto;
@@ -91,8 +79,9 @@ code-sandbox {
 				flex-shrink: 0;
 			}
 
-			&:not(.sandbox-console) {
-				border-block-end: 1px solid var(--csb-border-color, light-dark(#ddd, #6b6b6b));
+			&:not(.csb-console) {
+				border-block-end: 1px solid
+					var(--csb-border-color, light-dark(#ddd, #6b6b6b));
 
 				& summary {
 					padding: 1em;
@@ -105,9 +94,10 @@ code-sandbox {
 				}
 			}
 
-			&.sandbox-console {
+			&.csb-console {
 				padding: 0 0.5em 0.5em 0.5em;
-				border-block-start: 1px solid var(--csb-border-color, light-dark(#ddd, #6b6b6b));
+				border-block-start: 1px solid
+					var(--csb-border-color, light-dark(#ddd, #6b6b6b));
 
 				& summary {
 					padding: 1em 0.5em 0.5em 0.5em;
@@ -119,7 +109,7 @@ code-sandbox {
 			}
 		}
 
-		.sandbox-editor {
+		.csb-editor {
 			display: grid;
 			grid-template-columns: 1fr;
 			grid-template-rows: 1fr;
@@ -127,15 +117,15 @@ code-sandbox {
 			padding: 0 0.5em 0.5em 0.5em;
 		}
 
-		.sandbox-text,
-		.sandbox-mirror {
+		.csb-text,
+		.csb-mirror {
 			grid-area: 1 / 1 / 2 / 2;
 			min-height: 15em;
 		}
 
-		.sandbox-text,
-		.sandbox-mirror,
-		.sandbox-console-log {
+		.csb-text,
+		.csb-mirror,
+		.csb-console-log {
 			border: none;
 			border-radius: 0.25em;
 			caret-color: #f7f7f7;
@@ -154,7 +144,7 @@ code-sandbox {
 			overflow-wrap: break-word;
 		}
 
-		.sandbox-mirror code {
+		.csb-mirror code {
 			display: inline-block;
 			padding: 0;
 			font-size: 1em;
@@ -166,12 +156,12 @@ code-sandbox {
 			overflow-wrap: break-word;
 		}
 
-		.sandbox-text {
+		.csb-text {
 			color: transparent;
 			background-color: transparent;
 		}
 
-		.sandbox-console-log {
+		.csb-console-log {
 			background: hsl(220 13% 18%);
 			color: hsl(220 14% 71%);
 			text-shadow: 0 1px rgb(0 0 0 / 0.3);
@@ -180,18 +170,16 @@ code-sandbox {
 			tab-size: 2;
 		}
 
-		.log-warn {
+		.csb-log-warn {
 			color: var(--csb-warning-color, #f9d767);
 		}
 
-		.log-error {
+		.csb-log-error {
 			color: var(--csb-error-color, #f9c8c8);
 		}
 
-		/**
-		 * Result panel
-		 */
-		.sandbox-iframe {
+		/* Result panel */
+		.csb-iframe {
 			background-color: #ffffff;
 			height: 100%;
 			width: 100%;
@@ -199,49 +187,46 @@ code-sandbox {
 			margin-block-end: 0;
 		}
 
-		.sandbox-result,
-		.sandbox-console-result {
+		.csb-result,
+		.csb-console-result {
 			@container (min-width: 768px) {
 				grid-area: 1 / 2 / 2 / 3;
 			}
 		}
 
-		.sandbox-result {
-			border-block-start: 1px solid var(--csb-border-color, light-dark(#ddd, #6b6b6b));
+		.csb-result {
+			border-block-start: 1px solid
+				var(--csb-border-color, light-dark(#ddd, #6b6b6b));
 
 			@container (min-width: 768px) {
 				border-block-start: 0;
-				border-inline-start: 1px solid var(--csb-border-color, light-dark(#ddd, #6b6b6b));
+				border-inline-start: 1px solid
+					var(--csb-border-color, light-dark(#ddd, #6b6b6b));
 			}
 		}
 
-		.sandbox-console-result {
-			.sandbox-label {
+		.csb-console-result {
+			.csb-label {
 				display: none;
 			}
 
-			.sandbox-console-log {
+			.csb-console-log {
 				min-height: 15em;
 				height: 100%;
 				overflow: auto;
 				border-radius: 0;
-				border-block-start: 1px solid var(--csb-border-color, light-dark(#ddd, #6b6b6b));
+				border-block-start: 1px solid
+					var(--csb-border-color, light-dark(#ddd, #6b6b6b));
 
 				@container (min-width: 768px) {
 					border-block-start: 0;
-					border-inline-start: 1px solid var(--csb-border-color, light-dark(#ddd, #6b6b6b));
+					border-inline-start: 1px solid
+						var(--csb-border-color, light-dark(#ddd, #6b6b6b));
 				}
 			}
 		}
 
-		/*
-		 * Hide only visually, but have it available for screen readers:
-		 * @link https://snook.ca/archives/html_and_css/hiding-content-for-accessibility
-		 *
-		 * 1. For long content, line feeds are not interpreted as spaces and small width
-		 *    causes content to wrap 1 word per line:
-		 *    https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
-		 */
+		/* Screen reader only text */
 		.sr-only {
 			border: 0;
 			clip: rect(0 0 0 0);
@@ -251,7 +236,7 @@ code-sandbox {
 			overflow: hidden;
 			padding: 0;
 			position: absolute;
-			white-space: nowrap; /* 1 */
+			white-space: nowrap;
 			width: 1px;
 		}
 	}

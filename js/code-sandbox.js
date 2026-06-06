@@ -53,54 +53,54 @@ customElements.define(
 				this.js = await this.fetchContent(js, js ? js.value : false);
 
 				// Create sandbox
-				let logger = `<pre class="sandbox-console-log language-shell" id="sandbox-console-log-${this.uuid}"></pre>`;
+				let logger = `<pre class="csb-console-log language-shell" id="csb-console-log-${this.uuid}"></pre>`;
 				this.innerHTML = `
-			<div class="sandbox">
-				<div class="sandbox-header">
-					<strong class="sandbox-label">${this.escapeHtml(
+			<div class="csb">
+				<div class="csb-header">
+					<strong class="csb-label">${this.escapeHtml(
 					this.title || "Code Sandbox"
 				)}</strong>
-					<span class="sandbox-controls">
-						<button class="sandbox-btn" data-click="reset">Reload</button>
+					<span class="csb-controls">
+						<button class="csb-btn" data-click="reset">Reload</button>
 						${this.console || this.result === "console"
-						? `<button class="sandbox-btn" data-click="clear">Clear Console</button>`
+						? `<button class="csb-btn" data-click="clear">Clear Console</button>`
 						: ""
 					}
 					</span>
 				</div>
-				<div class="sandbox-content">
-					<div class="sandbox-code">
+				<div class="csb-content">
+					<div class="csb-code">
 						${this.createEditor("html", html)}
 						${this.createEditor("css", css)}
 						${this.createEditor("js", js)}
 					</div>
 					<div class="${this.result === "iframe"
-						? "sandbox-result"
-						: "sandbox-console-result"
+						? "csb-result"
+						: "csb-console-result"
 					}">
-						<iframe class="sandbox-iframe" id="sandbox-iframe-${this.uuid
+						<iframe class="csb-iframe" id="csb-iframe-${this.uuid
 					}" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads" frameborder="0" ${this.result === "console" ? "hidden" : ""
 					}></iframe>
 						${this.result === "console"
-						? `<div class="sandbox-label">Console</div>${logger}`
+						? `<div class="csb-label">Console</div>${logger}`
 						: ""
 					}
 					</div>
 				</div>
 				${this.console && this.result !== "console"
-						? `<details class="sandbox-console" ${this.getAttribute("console") === "open" ? "open" : ""
+						? `<details class="csb-console" ${this.getAttribute("console") === "open" ? "open" : ""
 						}><summary>Console</summary>${logger}</details>`
 						: ""
 					}
 			</div>`;
 
 				// Get elements
-				this.htmlElem = this.querySelector(`#sandbox-html-${this.uuid}`);
-				this.cssElem = this.querySelector(`#sandbox-css-${this.uuid}`);
-				this.jsElem = this.querySelector(`#sandbox-js-${this.uuid}`);
-				this.iframeElem = this.querySelector(`#sandbox-iframe-${this.uuid}`);
+				this.htmlElem = this.querySelector(`#csb-html-${this.uuid}`);
+				this.cssElem = this.querySelector(`#csb-css-${this.uuid}`);
+				this.jsElem = this.querySelector(`#csb-js-${this.uuid}`);
+				this.iframeElem = this.querySelector(`#csb-iframe-${this.uuid}`);
 				this.loggerElem = this.querySelector(
-					`#sandbox-console-log-${this.uuid}`
+					`#csb-console-log-${this.uuid}`
 				);
 
 				// Render the initial UI
@@ -185,7 +185,7 @@ customElements.define(
 		 * @param  {Event} event The event object
 		 */
 		oninput(event) {
-			if (!event.target.matches(".sandbox-text")) return;
+			if (!event.target.matches(".csb-text")) return;
 
 			// Keep the mirror text in sync immediately so the caret stays aligned,
 			// but defer the (more expensive) syntax highlight and iframe render.
@@ -227,7 +227,7 @@ customElements.define(
 		onkeydown(event) {
 			// Only run on specific keyboard events in the instance
 			if (
-				!event.target.matches(".sandbox-text") ||
+				!event.target.matches(".csb-text") ||
 				!this.contains(event.target)
 			)
 				return;
@@ -274,12 +274,12 @@ customElements.define(
 					: ""
 				}>
 					<summary>${type.toUpperCase()}</summary>
-					<label for="sandbox-${type}-${this.uuid
+					<label for="csb-${type}-${this.uuid
 				}" class="sr-only">${type.toUpperCase()}</label>
-					<div class="sandbox-editor">
-							<pre class="sandbox-mirror"><code id="sandbox-${type}-mirror-${this.uuid
+					<div class="csb-editor">
+							<pre class="csb-mirror"><code id="csb-${type}-mirror-${this.uuid
 				}" class="lang-${type}"></code></pre>
-							<textarea spellcheck="false" autocorrect="off" autocapitalize="off" translate="no" class="sandbox-text" id="sandbox-${type}-${this.uuid
+							<textarea spellcheck="false" autocorrect="off" autocapitalize="off" translate="no" class="csb-text" id="csb-${type}-${this.uuid
 				}"></textarea>
 					</div>
 			</details>`;
@@ -463,7 +463,7 @@ customElements.define(
 			win.console.listen(function (data) {
 				for (let item of data.msg) {
 					let log = document.createElement("div");
-					log.className = `log-${data.type}`;
+					log.className = `csb-log-${data.type}`;
 					log.textContent = instance.parseLog(item);
 					instance.loggerElem.append(log);
 				}
