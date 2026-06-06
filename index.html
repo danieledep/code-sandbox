@@ -4,14 +4,12 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>code-sandbox web component</title>
-		<!-- Prism CSS -->
-		<!-- <link href="css/prism-one-dark.css" rel="stylesheet" /> -->
 		<!-- Code sandbox CSS -->
 		<link href="css/code-sandbox.css" rel="stylesheet" />
-		<!-- PrismJS -->
-		<!-- <script type="module" src="js/prism.js"></script> -->
 		<!-- Code sandbox JS -->
 		<script type="module" src="js/code-sandbox.js"></script>
+		<!-- Plug Shiki in as the highlighter -->
+		<script type="module" src="js/script.js"></script>
 	</head>
 
 	<body>
@@ -20,9 +18,5 @@
 			<textarea for="css" src="css/code-sandbox.css">/* ... */</textarea>
 			<textarea for="js" open>// ...</textarea>
 		</code-sandbox>
-
-		<!--  <code-sandbox console hidden result="console">
-    <textarea for="js">// ...</textarea>
-  </code-sandbox> -->
 	</body>
 </html>

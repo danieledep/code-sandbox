@@ -7,6 +7,11 @@ let instanceCount = 0;
 customElements.define(
 	"code-sandbox",
 	class extends HTMLElement {
+		// Pluggable syntax highlighter (see README). When left null, Prism is
+		// used automatically if it's loaded; otherwise editors show plain text.
+		// Set it via: customElements.get("code-sandbox").highlight = fn
+		static highlight = null;
+
 		// Keep the constructor side-effect free, as required by the custom
 		// elements spec. All DOM work happens in connectedCallback().
 		constructor() {
@@ -325,13 +330,29 @@ customElements.define(
 		}
 
 		/**
-		 * Syntax highlight a textarea's mirror, if Prism is available.
-		 * Without Prism the mirror still shows the plain text from syncMirror().
+		 * Syntax highlight a textarea's mirror with the pluggable highlighter
+		 * (the static `highlight`), falling back to Prism if it's loaded. With
+		 * neither, the mirror keeps the plain text set by syncMirror().
 		 * @param  {Element} elem The textarea to highlight
 		 */
-		highlightMirror(elem) {
-			if (typeof Prism === "undefined") return;
-			Prism.highlightElement(this.mirror(elem));
+		async highlightMirror(elem) {
+			let code = this.mirror(elem);
+			let value = elem.value;
+			let lang = (code.className.match(/lang-([\w-]+)/) || [])[1] || "";
+			let highlight = this.constructor.highlight;
+
+			// Custom highlighter: may be async and may return an HTML string
+			if (highlight) {
+				let result = highlight(value, lang, code);
+				if (result && typeof result.then === "function") result = await result;
+				// Discard a stale result if the editor changed while we awaited
+				if (elem.value !== value) return;
+				if (typeof result === "string") code.innerHTML = result;
+				return;
+			}
+
+			// Default: Prism, if present
+			if (typeof Prism !== "undefined") Prism.highlightElement(code);
 		}
 
 		/**
@@ -341,6 +362,16 @@ customElements.define(
 		mirrorContent(elem) {
 			this.syncMirror(elem);
 			this.highlightMirror(elem);
+		}
+
+		/**
+		 * Re-highlight every editor. Call this after an async highlighter
+		 * (e.g. Shiki) has finished loading so already-rendered editors update.
+		 */
+		rehighlight() {
+			for (let elem of [this.htmlElem, this.cssElem, this.jsElem]) {
+				if (elem) this.highlightMirror(elem);
+			}
 		}
 
 		/**

@@ -4,7 +4,7 @@ This is a fork of [code-sandbox](https://gist.github.com/cferdinandi/df9c95ae5f5
 
 Having a code sandbox web component can be useful for showing code snippets in a more interactive way, and it doesn't require any external third-party services like **CodePen** or **JSFiddle**.
 
-Also being a web component, it means it can be used in any framework or vanilla JavaScript and it will always work, since it doesn't depend on any framework. The only dependency it uses is [PrismJS](https://prismjs.com/) for syntax highlighting, which can be included directly in the JavaScript file. This fork adds a few useful features to the original code too.
+Also being a web component, it means it can be used in any framework or vanilla JavaScript and it will always work, since it doesn't depend on any framework. It has no hard dependencies: syntax highlighting is optional and pluggable — drop in [PrismJS](https://prismjs.com/) and it's used automatically, or wire up another highlighter such as [Shiki](https://shiki.style/) (see [Syntax highlighting](#syntax-highlighting)). Without one, the editors simply show plain text. This fork adds a few useful features to the original code too.
 
 ## Attributes
 
@@ -16,6 +16,51 @@ Also being a web component, it means it can be used in any framework or vanilla 
 | `result`     | Controls what is displayed on the right side panel, can either be `iframe` or `console`. Defaults to `iframe`     |
 | `src`     | The URL of the file to fetch and run in the sandbox. Can be on the same origin or a remote file (Optional)      |
 | `title`   | The title of the code block, defaults to `Code sandbox`. (Optional)                                             |
+
+## Syntax highlighting
+
+Highlighting is optional and pluggable. Each editor is a transparent `<textarea>` layered over a highlighted mirror, so a highlighter only has to colour the mirror's text — the component keeps it aligned with the textarea.
+
+- **Prism (zero config)** — include PrismJS and a Prism theme on the page and the component detects `window.Prism` and uses it automatically.
+- **None** — with no highlighter present, the editors show readable plain text (coloured via `--csb-editor-bg` / `--csb-editor-color`).
+- **Custom (e.g. Shiki)** — assign a function to the element's static `highlight` property:
+
+```js
+customElements.get("code-sandbox").highlight = (code, lang, element) => {
+	/* ... */
+};
+```
+
+| Argument  | Description                                                          |
+| --------- | ------------------------------------------------------------------- |
+| `code`    | The editor's current source text                                    |
+| `lang`    | The language — `"html"`, `"css"` or `"js"`                          |
+| `element` | The mirror `<code>` element, already holding the plain text         |
+
+The function may be `async` and may return an HTML string, which the component sets as the mirror's markup (and discards if the editor changed while an async highlighter was still running). Return nothing if you mutate `element` yourself, as Prism does.
+
+### Example: Shiki
+
+```js
+import { createHighlighter } from "https://esm.sh/shiki";
+
+const highlighter = await createHighlighter({
+	langs: ["html", "css", "js"],
+	themes: ["github-dark"],
+});
+
+customElements.get("code-sandbox").highlight = (code, lang) =>
+	highlighter.codeToHtml(code, {
+		lang: lang || "txt",
+		theme: "github-dark",
+		structure: "inline", // colour spans only — keeps the component's own <pre>/<code> and metrics
+	});
+
+// editors that rendered while Shiki was loading need a nudge
+document.querySelectorAll("code-sandbox").forEach((el) => el.rehighlight());
+```
+
+Use `structure: "inline"` so Shiki emits only the coloured token spans; the component's own element and CSS keep the mirror aligned with the textarea.
 
 ## Theming
 
@@ -77,3 +122,4 @@ Any area you omit simply isn't rendered into. Because the editors are collapsibl
 
 - [cferdinandi/code-sandbox](https://gist.github.com/cferdinandi/df9c95ae5f5ebcddf2ab85bb2805ff07)
 - [PrismJS](https://prismjs.com/)
+- [Shiki](https://shiki.style/)
