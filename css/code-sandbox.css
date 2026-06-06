@@ -5,8 +5,8 @@ code-sandbox {
 
 	/* Wrapper */
 	.csb {
-		display: grid;
-		grid-template-rows: auto 1fr auto;
+		display: flex;
+		flex-direction: column;
 		width: 100%;
 		border: 1px solid var(--csb-border-color, light-dark(#ddd, #6b6b6b));
 		border-radius: var(--csb-radius, 0.25em);
@@ -27,8 +27,30 @@ code-sandbox {
 			background: Canvas;
 		}
 
+		/* Grid */
+		.csb-grid {
+			flex: 1;
+			min-height: 0;
+			display: grid;
+			grid-template: var(
+				--csb-layout-mobile,
+				"header" auto "html" auto "css" auto "js" auto "result" 1fr "console"
+					auto / 1fr
+			);
+
+			@container (min-width: 768px) {
+				grid-template: var(
+					--csb-layout,
+					"header header" auto "html   result" auto "css    result" auto
+						"js     result" auto ".      result" 1fr "console console" auto /
+						1fr 1fr
+				);
+			}
+		}
+
 		/* Header */
 		.csb-header {
+			grid-area: header;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
@@ -61,25 +83,6 @@ code-sandbox {
 			top: 0;
 		}
 
-		/* Content */
-		.csb-content {
-			display: grid;
-			grid-template-rows: auto 1fr;
-			overflow: hidden;
-			height: auto;
-
-			@container (min-width: 768px) {
-				grid-template-columns: repeat(2, 1fr);
-				grid-template-rows: 1fr;
-			}
-		}
-
-		.csb-code {
-			display: flex;
-			flex-direction: column;
-			overflow: hidden;
-		}
-
 		/* Editors */
 		& details {
 			max-height: 100%;
@@ -105,6 +108,7 @@ code-sandbox {
 			}
 
 			&.csb-console {
+				grid-area: console;
 				padding: 0 0.5em 0.5em 0.5em;
 				border-block-start: 1px solid
 					var(--csb-border-color, light-dark(#ddd, #6b6b6b));
@@ -213,9 +217,7 @@ code-sandbox {
 
 		.csb-result,
 		.csb-console-result {
-			@container (min-width: 768px) {
-				grid-area: 1 / 2 / 2 / 3;
-			}
+			grid-area: result;
 		}
 
 		.csb-result {

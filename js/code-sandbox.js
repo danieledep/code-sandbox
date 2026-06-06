@@ -56,6 +56,7 @@ customElements.define(
 				let logger = `<pre class="csb-console-log language-shell" id="csb-console-log-${this.uuid}"></pre>`;
 				this.innerHTML = `
 			<div class="csb">
+				<div class="csb-grid">
 				<div class="csb-header">
 					<strong class="csb-label">${this.escapeHtml(
 					this.title || "Code Sandbox"
@@ -70,30 +71,27 @@ customElements.define(
 					}
 					</span>
 				</div>
-				<div class="csb-content">
-					<div class="csb-code">
-						${this.createEditor("html", html)}
-						${this.createEditor("css", css)}
-						${this.createEditor("js", js)}
-					</div>
-					<div class="${this.result === "iframe"
-						? "csb-result"
-						: "csb-console-result"
-					}">
-						<iframe class="csb-iframe" id="csb-iframe-${this.uuid
-					}" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads" frameborder="0" ${this.result === "console" ? "hidden" : ""
-					}></iframe>
-						${this.result === "console"
-						? `<div class="csb-label">Console</div>${logger}`
-						: ""
-					}
-					</div>
+				${this.createEditor("html", html)}
+				${this.createEditor("css", css)}
+				${this.createEditor("js", js)}
+				<div class="${this.result === "iframe"
+					? "csb-result"
+					: "csb-console-result"
+				}">
+					<iframe class="csb-iframe" id="csb-iframe-${this.uuid
+				}" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads" frameborder="0" ${this.result === "console" ? "hidden" : ""
+				}></iframe>
+					${this.result === "console"
+					? `<div class="csb-label">Console</div>${logger}`
+					: ""
+				}
 				</div>
 				${this.console && this.result !== "console"
 						? `<details class="csb-console" ${this.getAttribute("console") === "open" ? "open" : ""
 						}><summary>Console</summary>${logger}</details>`
 						: ""
 					}
+				</div>
 			</div>`;
 
 				// Get elements
@@ -292,7 +290,7 @@ customElements.define(
 			const isSingleContentType = contentTypes.length === 1;
 
 			return `
-			<details ${(elem && elem.hasAttribute("open")) || isSingleContentType ? "open" : ""
+			<details style="grid-area: ${type}" ${(elem && elem.hasAttribute("open")) || isSingleContentType ? "open" : ""
 				} ${this.hasAttribute("name")
 					? `name="${this.escapeHtml(this.getAttribute("name"))}"`
 					: ""

@@ -37,6 +37,8 @@ code-sandbox {
 | `--csb-radius`        | Corner radius of the frame, buttons and panels | `0.25em`                            |
 | `--csb-min-height`    | Minimum height of the editors, preview and console panels | `15em`                  |
 | `--csb-resize`        | How the frame can be drag-resized (`vertical`, `horizontal`, `both`, `none`) | `both`        |
+| `--csb-layout-mobile` | Mobile (<768px) layout as a `grid-template` of named areas — see [Layout](#layout) | stacked          |
+| `--csb-layout`        | Desktop (≥768px) layout as a `grid-template` of named areas — see [Layout](#layout) | editors left, result right |
 | `--csb-preview-bg`    | Background of the iframe preview              | `#ffffff`                            |
 | `--csb-font-family`   | Font for the code editors and console         | `ui-monospace, Menlo, Monaco, "Courier New", monospace` |
 | `--csb-font-size`     | Font size for the code editors and console    | `0.875em`                            |
@@ -47,6 +49,29 @@ code-sandbox {
 | `--csb-console-color` | Console base text colour                      | `#abb2bf`                   |
 | `--csb-warning-color` | Colour of `console.warn` output               | `#f9d767`                            |
 | `--csb-error-color`   | Colour of `console.error` output              | `#f9c8c8`                            |
+
+## Layout
+
+The whole sandbox is a single CSS grid, so each arrangement is controlled with one property, written as a `grid-template` of named areas: `--csb-layout-mobile` below the 768px breakpoint and `--csb-layout` at or above it. The areas are:
+
+- `header` — the title bar and controls
+- `html`, `css`, `js` — the three editors
+- `result` — the preview iframe (or the console, when `result="console"`)
+- `console` — the console drawer, when the `console` attribute is used
+
+By default mobile is a vertical stack and desktop puts the editors on the left with the result on the right. To get a CodePen-style desktop layout — editors across the top, preview below — redefine the desktop areas:
+
+```css
+code-sandbox {
+	--csb-layout:
+		"header header header"    auto
+		"html   css    js"        1fr
+		"result result result"    1fr
+		"console console console" auto / 1fr 1fr 1fr;
+}
+```
+
+Any area you omit simply isn't rendered into. Because the editors are collapsible, prefer `auto` rows where you want a pane to shrink to its summary when closed, and `1fr` where it should fill.
 
 ### Resources
 
