@@ -11,6 +11,7 @@ code-sandbox {
 		border: 1px solid var(--csb-border-color, light-dark(#ddd, #6b6b6b));
 		border-radius: var(--csb-radius, 0.25em);
 		color: var(--csb-color, light-dark(#272727, #f7f7f7));
+		background-color: var(--csb-bg-color, Canvas);
 		font-family: system-ui, sans-serif;
 		margin-block-end: 1.5em;
 		overflow: hidden;
@@ -58,7 +59,6 @@ code-sandbox {
 			cursor: pointer;
 			position: sticky;
 			top: 0;
-			background-color: Canvas;
 		}
 
 		/* Content */
@@ -66,7 +66,6 @@ code-sandbox {
 			display: grid;
 			grid-template-rows: auto 1fr;
 			overflow: hidden;
-			/* Fill the frame's row so the panes grow/shrink when it's resized */
 			height: auto;
 
 			@container (min-width: 768px) {
@@ -139,7 +138,7 @@ code-sandbox {
 		.csb-console-log {
 			border: none;
 			border-radius: var(--csb-radius, 0.25em);
-			caret-color: var(--csb-caret-color, #f7f7f7);
+			caret-color: contrast-color(var(--csb-editor-bg, #282c34));
 			font: inherit;
 			font-family: var(
 				--csb-font-family,
@@ -162,11 +161,17 @@ code-sandbox {
 			overflow-wrap: break-word;
 		}
 
+		.csb-mirror {
+			background: var(--csb-editor-bg, #282c34);
+			color: var(--csb-editor-color, #abb2bf);
+		}
+
 		.csb-mirror code {
 			display: inline-block;
 			padding: 0;
+			font-family: inherit;
 			font-size: 1em;
-			letter-spacing: -0.0125em;
+			letter-spacing: normal;
 			width: 100%;
 			tab-size: var(--csb-tab-size, 2);
 			white-space: pre-wrap;
@@ -181,8 +186,8 @@ code-sandbox {
 		}
 
 		.csb-console-log {
-			background: var(--csb-console-bg, hsl(220 13% 18%));
-			color: var(--csb-console-color, hsl(220 14% 71%));
+			background: var(--csb-console-bg, #282c34);
+			color: var(--csb-console-color, #abb2bf);
 			text-shadow: 0 1px rgb(0 0 0 / 0.3);
 			min-height: calc((1em * 1.5) + 1.625em);
 			white-space: pre-wrap;

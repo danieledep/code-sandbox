@@ -32,6 +32,7 @@ code-sandbox {
 | Property              | Description                                  | Default                              |
 | --------------------- | -------------------------------------------- | ------------------------------------ |
 | `--csb-color`         | Text colour of the chrome (labels, summaries) | `light-dark(#272727, #f7f7f7)`       |
+| `--csb-bg-color`      | Background of the frame (header and chrome)   | `Canvas`                             |
 | `--csb-border-color`  | Borders and dividers                          | `light-dark(#ddd, #6b6b6b)`          |
 | `--csb-radius`        | Corner radius of the frame, buttons and panels | `0.25em`                            |
 | `--csb-min-height`    | Minimum height of the editors, preview and console panels | `15em`                  |
@@ -40,9 +41,10 @@ code-sandbox {
 | `--csb-font-family`   | Font for the code editors and console         | `ui-monospace, Menlo, Monaco, "Courier New", monospace` |
 | `--csb-font-size`     | Font size for the code editors and console    | `0.875em`                            |
 | `--csb-tab-size`      | Tab width in the editors and console          | `2`                                  |
-| `--csb-caret-color`   | Caret colour in the editors                   | `#f7f7f7`                            |
-| `--csb-console-bg`    | Console panel background                      | `hsl(220 13% 18%)`                   |
-| `--csb-console-color` | Console base text colour                      | `hsl(220 14% 71%)`                   |
+| `--csb-editor-bg`     | Editor background (base colour, also used when Prism isn't loaded) | `#282c34` |
+| `--csb-editor-color`  | Editor base text colour (un-highlighted text) | `#abb2bf`                   |
+| `--csb-console-bg`    | Console panel background                      | `#282c34`                   |
+| `--csb-console-color` | Console base text colour                      | `#abb2bf`                   |
 | `--csb-warning-color` | Colour of `console.warn` output               | `#f9d767`                            |
 | `--csb-error-color`   | Colour of `console.error` output              | `#f9c8c8`                            |
 

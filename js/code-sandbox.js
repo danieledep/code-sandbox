@@ -327,10 +327,12 @@ customElements.define(
 		}
 
 		/**
-		 * Syntax highlight a textarea's mirror
+		 * Syntax highlight a textarea's mirror, if Prism is available.
+		 * Without Prism the mirror still shows the plain text from syncMirror().
 		 * @param  {Element} elem The textarea to highlight
 		 */
 		highlightMirror(elem) {
+			if (typeof Prism === "undefined") return;
 			Prism.highlightElement(this.mirror(elem));
 		}
 
