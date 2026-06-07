@@ -129,6 +129,7 @@ code-sandbox {
 | `--csb-border-color`  | Borders and dividers                          | `light-dark(#ddd, #6b6b6b)`          |
 | `--csb-radius`        | Corner radius of the frame, buttons and panels | `0.25em`                            |
 | `--csb-min-height`    | Minimum height of the editors, preview and console panels | `15em`                  |
+| `--csb-max-height`    | Maximum height of an open editor before it scrolls internally (desktop ≥768px only; on mobile editors grow with the stacked layout) | `20em`               |
 | `--csb-resize`        | How the frame can be drag-resized (`vertical`, `horizontal`, `both`, `none`) | `both`        |
 | `--csb-layout-mobile` | Mobile (<768px) layout as a `grid-template` of named areas — see [Layout](#layout) | stacked          |
 | `--csb-layout`        | Desktop (≥768px) layout as a `grid-template` of named areas — see [Layout](#layout) | editors left, result right |

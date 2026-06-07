@@ -1,6 +1,6 @@
 {
 	"name": "@danieledep/code-sandbox",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "A dependency-free <code-sandbox> web component for interactive, editable HTML/CSS/JS demos.",
 	"type": "module",
 	"main": "src/code-sandbox.js",

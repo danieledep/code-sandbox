@@ -2,6 +2,7 @@ code-sandbox {
 	color-scheme: light dark;
 	display: block;
 	width: 100%;
+	margin-block-end: 1.5em;
 
 	/* Reset */
 	*,
@@ -20,7 +21,6 @@ code-sandbox {
 		color: var(--csb-color, light-dark(#272727, #f7f7f7));
 		background-color: var(--csb-bg-color, Canvas);
 		font-family: system-ui, sans-serif;
-		margin-block-end: 1.5em;
 		overflow: hidden;
 		container-type: inline-size;
 		resize: var(--csb-resize, both);
@@ -99,6 +99,7 @@ code-sandbox {
 			cursor: pointer;
 			position: sticky;
 			top: 0;
+			background-color: var(--csb-bg-color, Canvas);
 		}
 
 		/* Editors */
@@ -108,6 +109,10 @@ code-sandbox {
 
 			&:not([open]) {
 				flex-shrink: 0;
+			}
+
+			&[open] {
+				max-height: var(--csb-max-height, 20em);
 			}
 
 			&:not(.csb-console) {
