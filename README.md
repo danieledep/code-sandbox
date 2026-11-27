@@ -4,11 +4,11 @@ This is a fork of [code-sandbox](https://gist.github.com/cferdinandi/df9c95ae5f5
 
 Having a code sandbox web component can be useful for showing code snippets in a more interactive way, and it doesn't require any external third-party services like **CodePen** or **JSFiddle**.
 
-Also being a web component, it means it can be used in any framework or vanilla JavaScript and it will always work, since it doesn't depend on any framework. It has no hard dependencies: syntax highlighting is optional and pluggable — drop in [PrismJS](https://prismjs.com/) and it's used automatically, or wire up another highlighter such as [Shiki](https://shiki.style/) (see [Syntax highlighting](#syntax-highlighting)). Without one, the editors simply show plain text. This fork adds a few useful features to the original code too.
+Also being a web component, it means it can be used in any framework or vanilla JavaScript and it will always work, since it doesn't depend on any framework. Its editors are highlighted with [MicroLighter](https://github.com/davatron5000/microlighter), a ~2 KB highlighter built on the CSS Custom Highlight API, and you can swap in your own highlighter (see [Syntax highlighting](#syntax-highlighting)). This fork adds a few useful features to the original code too.
 
 ## Installation
 
-The component is a single self-registering custom element with no build step and no required dependencies (syntax highlighting is optional — see [Syntax highlighting](#syntax-highlighting)). Use it via npm or straight from a CDN.
+The component is a single self-registering custom element with no build step. Its one dependency is [MicroLighter](https://github.com/davatron5000/microlighter), for syntax highlighting. Use it via npm or straight from a CDN.
 
 ### npm
 
@@ -27,16 +27,19 @@ If your bundler doesn't handle CSS imports, link the stylesheet in your HTML ins
 
 ### CDN
 
-No install, no build — drop two tags into the page. Pin a version (`@1`) so it can't shift under you:
+No install, no build — drop these tags into the page. The import map tells the browser where to find MicroLighter. Pin versions (`@2`) so they can't shift under you:
 
 ```html
 <link
 	rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/@danieledep/code-sandbox@1/src/code-sandbox.css"
+	href="https://cdn.jsdelivr.net/npm/@danieledep/code-sandbox@2/src/code-sandbox.css"
 />
+<script type="importmap">
+	{ "imports": { "microlighter": "https://cdn.jsdelivr.net/npm/microlighter@2/dist/index.js" } }
+</script>
 <script
 	type="module"
-	src="https://cdn.jsdelivr.net/npm/@danieledep/code-sandbox@1/src/code-sandbox.js"
+	src="https://cdn.jsdelivr.net/npm/@danieledep/code-sandbox@2/src/code-sandbox.js"
 ></script>
 ```
 
@@ -67,11 +70,10 @@ Either way, author a sandbox declaratively, with one `<textarea>` per language:
 
 ## Syntax highlighting
 
-Highlighting is optional and pluggable. Each editor is a transparent `<textarea>` layered over a highlighted mirror, so a highlighter only has to colour the mirror's text — the component keeps it aligned with the textarea.
+Each editor is a transparent `<textarea>` layered over a highlighted mirror, so a highlighter only has to colour the mirror's text — the component keeps it aligned with the textarea.
 
-- **Prism (zero config)** — include PrismJS and a Prism theme on the page and the component detects `window.Prism` and uses it automatically.
-- **None** — with no highlighter present, the editors show readable plain text (coloured via `--csb-editor-bg` / `--csb-editor-color`).
-- **Custom (e.g. Shiki)** — assign a function to the element's static `highlight` property:
+- **MicroLighter (default)** — the editors are highlighted with [MicroLighter](https://github.com/davatron5000/microlighter) out of the box. It colours text with the [CSS Custom Highlight API](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Custom_Highlight_API), so the mirror holds plain text with no token `<span>`s. It is loaded on first use, and only the grammars the editors need (HTML, CSS, JavaScript) are fetched. Colours come from the `--csb-syntax-*` properties (see [Theming](#theming)). In a browser without the Highlight API, the editors show plain text.
+- **Custom (e.g. Shiki)** — assign a function to the element's static `highlight` property, and it is used instead of MicroLighter:
 
 ```js
 customElements.get("code-sandbox").highlight = (code, lang, element) => {
@@ -85,7 +87,9 @@ customElements.get("code-sandbox").highlight = (code, lang, element) => {
 | `lang`    | The language — `"html"`, `"css"` or `"js"`                          |
 | `element` | The mirror `<code>` element, already holding the plain text         |
 
-The function may be `async` and may return an HTML string, which the component sets as the mirror's markup (and discards if the editor changed while an async highlighter was still running). Return nothing if you mutate `element` yourself, as Prism does.
+The function may be `async` and may return an HTML string, which the component sets as the mirror's markup (and discards if the editor changed while an async highlighter was still running). Return nothing if you mutate `element` yourself.
+
+MicroLighter's `highlightAll()` replaces every Custom Highlight API highlight on the page, so the component highlights all its editors in one pass. If the page also uses MicroLighter for its own code blocks, use a custom highlighter here instead, or highlight both in one `highlightAll()` call.
 
 ### Example: Shiki
 
@@ -137,12 +141,31 @@ code-sandbox {
 | `--csb-font-family`   | Font for the code editors and console         | `ui-monospace, Menlo, Monaco, "Courier New", monospace` |
 | `--csb-font-size`     | Font size for the code editors and console    | `0.875em`                            |
 | `--csb-tab-size`      | Tab width in the editors and console          | `2`                                  |
-| `--csb-editor-bg`     | Editor background (base colour, also used when Prism isn't loaded) | `#282c34` |
+| `--csb-editor-bg`     | Editor background                             | `#282c34`                   |
 | `--csb-editor-color`  | Editor base text colour (un-highlighted text) | `#abb2bf`                   |
 | `--csb-console-bg`    | Console panel background                      | `#282c34`                   |
 | `--csb-console-color` | Console base text colour                      | `#abb2bf`                   |
 | `--csb-warning-color` | Colour of `console.warn` output               | `#f9d767`                            |
 | `--csb-error-color`   | Colour of `console.error` output              | `#f9c8c8`                            |
+
+The syntax colours default to the One Dark palette, to match the editor background:
+
+| Property                   | Tokens                                                        | Default   |
+| -------------------------- | ------------------------------------------------------------- | --------- |
+| `--csb-syntax-comment`     | Comments, quotes                                              | `#7f848e` |
+| `--csb-syntax-keyword`     | Keywords, storage, at-rules, doctype, `!important`            | `#c678dd` |
+| `--csb-syntax-operator`    | Operators                                                     | `#56b6c2` |
+| `--csb-syntax-punctuation` | Punctuation                                                   | `#abb2bf` |
+| `--csb-syntax-string`      | Strings, regular expressions, attribute values                | `#98c379` |
+| `--csb-syntax-constant`    | Numbers, booleans, constants, entities                        | `#d19a66` |
+| `--csb-syntax-function`    | Function names                                                | `#61afef` |
+| `--csb-syntax-type`        | Types, built-ins                                              | `#e5c07b` |
+| `--csb-syntax-variable`    | Variables, interpolation                                      | `#e06c75` |
+| `--csb-syntax-property`    | Properties, object keys, attribute names                      | `#d19a66` |
+| `--csb-syntax-tag`         | HTML tags                                                     | `#e06c75` |
+| `--csb-syntax-selector`    | CSS selectors                                                 | `#d19a66` |
+| `--csb-syntax-inserted`    | Inserted lines (diffs)                                        | `#98c379` |
+| `--csb-syntax-deleted`     | Deleted lines (diffs)                                         | `#e06c75` |
 
 ## Layout
 
@@ -170,5 +193,5 @@ Any area you omit simply isn't rendered into. Because the editors are collapsibl
 ### Resources
 
 - [cferdinandi/code-sandbox](https://gist.github.com/cferdinandi/df9c95ae5f5ebcddf2ab85bb2805ff07)
-- [PrismJS](https://prismjs.com/)
+- [MicroLighter](https://github.com/davatron5000/microlighter)
 - [Shiki](https://shiki.style/)

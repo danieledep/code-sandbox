@@ -4,11 +4,49 @@ const DEBOUNCE_MS = 1000;
 // Fallback id counter for environments where crypto.randomUUID() is unavailable
 let instanceCount = 0;
 
+// Every editor mirror on the page, which MicroLighter highlights in one pass.
+const MIRROR_SELECTOR = "code-sandbox .csb-mirror > code";
+
+// MicroLighter (https://github.com/davatron5000/microlighter) colours text with
+// the CSS Custom Highlight API: no token <span>s, so the mirror stays a single
+// text node that lines up with the textarea. It is loaded on first use, and each
+// grammar is fetched only when an editor needs it.
+//
+// Its highlightAll() replaces every highlight on the page in one go, so all the
+// sandboxes are highlighted together. Calls that arrive while a pass is running
+// are folded into one more pass at the end.
+let microlighter = null;
+let pass = null;
+let queued = false;
+
+function highlightSandboxes() {
+	if (!(globalThis.CSS && "highlights" in CSS)) return Promise.resolve();
+	if (pass) {
+		queued = true;
+		return pass;
+	}
+	pass = (async () => {
+		try {
+			microlighter ??= import("microlighter");
+			const { highlightAll } = await microlighter;
+			do {
+				queued = false;
+				await highlightAll({ selector: MIRROR_SELECTOR });
+			} while (queued);
+		} catch (error) {
+			// Highlighting is cosmetic: on any failure the editors keep plain text
+		} finally {
+			pass = null;
+		}
+	})();
+	return pass;
+}
+
 customElements.define(
 	"code-sandbox",
 	class extends HTMLElement {
-		// Pluggable syntax highlighter (see README). When left null, Prism is
-		// used automatically if it's loaded; otherwise editors show plain text.
+		// Pluggable syntax highlighter (see README). When left null, the editors
+		// are highlighted with MicroLighter.
 		// Set it via: customElements.get("code-sandbox").highlight = fn
 		static highlight = null;
 
@@ -305,7 +343,7 @@ customElements.define(
 				}" class="sr-only">${type.toUpperCase()}</label>
 					<div class="csb-editor">
 							<pre class="csb-mirror"><code id="csb-${type}-mirror-${this.uuid
-				}" class="lang-${type}"></code></pre>
+				}" class="language-${type}"></code></pre>
 							<textarea spellcheck="false" autocorrect="off" autocapitalize="off" translate="no" class="csb-text" id="csb-${type}-${this.uuid
 				}"></textarea>
 					</div>
@@ -331,14 +369,14 @@ customElements.define(
 
 		/**
 		 * Syntax highlight a textarea's mirror with the pluggable highlighter
-		 * (the static `highlight`), falling back to Prism if it's loaded. With
-		 * neither, the mirror keeps the plain text set by syncMirror().
+		 * (the static `highlight`), or with MicroLighter by default. If neither
+		 * can run, the mirror keeps the plain text set by syncMirror().
 		 * @param  {Element} elem The textarea to highlight
 		 */
 		async highlightMirror(elem) {
 			let code = this.mirror(elem);
 			let value = elem.value;
-			let lang = (code.className.match(/lang-([\w-]+)/) || [])[1] || "";
+			let lang = (code.className.match(/language-([\w-]+)/) || [])[1] || "";
 			let highlight = this.constructor.highlight;
 
 			// Custom highlighter: may be async and may return an HTML string
@@ -351,8 +389,8 @@ customElements.define(
 				return;
 			}
 
-			// Default: Prism, if present
-			if (typeof Prism !== "undefined") Prism.highlightElement(code);
+			// Default: MicroLighter
+			await highlightSandboxes();
 		}
 
 		/**
@@ -365,8 +403,8 @@ customElements.define(
 		}
 
 		/**
-		 * Re-highlight every editor. Call this after an async highlighter
-		 * (e.g. Shiki) has finished loading so already-rendered editors update.
+		 * Re-highlight every editor. Call this after setting a custom highlighter
+		 * that loads asynchronously (e.g. Shiki), so already-rendered editors update.
 		 */
 		rehighlight() {
 			for (let elem of [this.htmlElem, this.cssElem, this.jsElem]) {

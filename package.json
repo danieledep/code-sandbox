@@ -1,7 +1,7 @@
 {
 	"name": "@danieledep/code-sandbox",
-	"version": "1.0.1",
-	"description": "A dependency-free <code-sandbox> web component for interactive, editable HTML/CSS/JS demos.",
+	"version": "2.0.0",
+	"description": "A <code-sandbox> web component for interactive, editable HTML/CSS/JS demos, highlighted with MicroLighter.",
 	"type": "module",
 	"main": "src/code-sandbox.js",
 	"exports": {
@@ -32,5 +32,8 @@
 		"url": "git+https://github.com/danieledep/code-sandbox.git"
 	},
 	"homepage": "https://github.com/danieledep/code-sandbox#readme",
-	"bugs": "https://github.com/danieledep/code-sandbox/issues"
+	"bugs": "https://github.com/danieledep/code-sandbox/issues",
+	"dependencies": {
+		"microlighter": "^2.2.0"
+	}
 }

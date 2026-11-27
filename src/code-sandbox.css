@@ -207,6 +207,77 @@ code-sandbox {
 			overflow-wrap: break-word;
 		}
 
+		/* Syntax colours. MicroLighter registers its tokens with the CSS Custom
+		   Highlight API, so they are styled with ::highlight(), scoped here to the
+		   editor mirrors. The defaults follow One Dark, to match the editor
+		   background; every colour can be set with a --csb-syntax-* property. */
+		.csb-mirror {
+			::highlight(comment),
+			::highlight(quote) {
+				color: var(--csb-syntax-comment, #7f848e);
+			}
+			::highlight(keyword),
+			::highlight(storage),
+			::highlight(at-rule),
+			::highlight(doctype),
+			::highlight(important),
+			::highlight(section) {
+				color: var(--csb-syntax-keyword, #c678dd);
+			}
+			::highlight(operator) {
+				color: var(--csb-syntax-operator, #56b6c2);
+			}
+			::highlight(punctuation) {
+				color: var(--csb-syntax-punctuation, #abb2bf);
+			}
+			::highlight(string),
+			::highlight(regexp),
+			::highlight(attribute-value),
+			::highlight(link),
+			::highlight(raw) {
+				color: var(--csb-syntax-string, #98c379);
+			}
+			::highlight(numeric),
+			::highlight(boolean),
+			::highlight(constant),
+			::highlight(symbol),
+			::highlight(character-entity),
+			::highlight(anchor),
+			::highlight(entity) {
+				color: var(--csb-syntax-constant, #d19a66);
+			}
+			::highlight(function),
+			::highlight(decorator),
+			::highlight(animation) {
+				color: var(--csb-syntax-function, #61afef);
+			}
+			::highlight(type),
+			::highlight(support) {
+				color: var(--csb-syntax-type, #e5c07b);
+			}
+			::highlight(variable),
+			::highlight(interpolation) {
+				color: var(--csb-syntax-variable, #e06c75);
+			}
+			::highlight(property),
+			::highlight(key),
+			::highlight(attribute-name) {
+				color: var(--csb-syntax-property, #d19a66);
+			}
+			::highlight(tag) {
+				color: var(--csb-syntax-tag, #e06c75);
+			}
+			::highlight(selector) {
+				color: var(--csb-syntax-selector, #d19a66);
+			}
+			::highlight(inserted) {
+				color: var(--csb-syntax-inserted, #98c379);
+			}
+			::highlight(deleted) {
+				color: var(--csb-syntax-deleted, #e06c75);
+			}
+		}
+
 		.csb-text {
 			color: transparent;
 			background-color: transparent;
